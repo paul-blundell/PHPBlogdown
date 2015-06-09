@@ -1,0 +1,16 @@
+{
+    "name": "paul-blundell/phpblogdown",
+    "description": "A very basic Markdown Blog",
+    "version": "1.0.0",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "michelf/php-markdown": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "PHPBlogdown\\": "src/",
+            "PHPBlogdown\\Interfaces\\": "src/interfaces/"
+        }
+    }
+}
