@@ -6,8 +6,15 @@ use PHPBlogdown\Interfaces\IConfig;
 
 class Config implements IConfig
 {
+    /**
+     * @var array
+     */
     private $config;
     
+    /**
+     * Initialise the config
+     * @param string $file
+     */
     public function __construct($file)
     {
         if (!file_exists($file))
@@ -19,6 +26,10 @@ class Config implements IConfig
             throw new \Exception('Unable to parse config file.');
     }
     
+    /**
+     * Get a config value
+     * @param string $name
+     */
     public function get($name)
     {
         if (!isset($this->config[$name]))
