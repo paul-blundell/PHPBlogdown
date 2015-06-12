@@ -8,8 +8,12 @@ This is the core of PHPBlogdown, this is where the magic happens. You can use th
 
     $blog = new PHPBlogdown\Blog('config.ini');
     $categories = $blog->categories->get_all();
-    
-or to get a post:
+
+And this will get a list of posts in the category:
+
+    $posts = $blog->posts->get_all('category_name');
+
+The following will get a specific post:
 
     $blog = new PHPBlogdown\Blog('config.ini');
     $post = $blog->posts->get('about', 'what_is_this');
@@ -59,7 +63,13 @@ You must specify a path to a config file when initialising the Blog. The config 
 
 Then create a new folder somewhere which will be where you upload your markdown files. Sub-directories of this folder will be the Blogs categories. You must have at least 1 category.
 
+## Why should I use this
+
+So, why should you use this? I don't know. If you think it suits your needs then go ahead and use it :)
+
 ## Installation
 
-Coming soon.
+Clone and run `composer install`.
+
+Alternatively, you can download a ready made website that uses PHPBlogdown [here](https://github.com/paul-blundell/phpblogdown-app), built with Slim Framework and Twig.
 
