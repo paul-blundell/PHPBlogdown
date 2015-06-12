@@ -95,6 +95,6 @@ class Categories implements ICategories
      */
     private function valid_filename($name)
     {
-        return preg_match("/^[a-z0-9-_]+$/", $name);
+        return preg_match("/^[a-z0-9-_\/]+$/", $name);
     }
 }
