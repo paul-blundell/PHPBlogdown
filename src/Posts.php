@@ -46,10 +46,13 @@ class Posts implements IPosts
             
         $file_contents = file_get_contents($file);
         
-        $result = $this->read_meta($file, $file_contents);
-        $result['body'] = Markdown::defaultTransform($file_contents);
+        $post = $this->read_post($file);
+        $meta = $this->read_meta($file, $file_contents);
         
-        return $result;
+        $post = array_merge($post, $meta);
+        $post['body'] = Markdown::defaultTransform($file_contents);
+        
+        return $post;
     }
     
     /**
@@ -62,21 +65,42 @@ class Posts implements IPosts
         if (!$this->valid_filename($category))
             throw new \Exception('Invalid filename');
         
-        $ext = $this->config->get('blog.file_extension');
         $path = rtrim($this->config->get('blog.files_path'), '/');
         $files = array_filter(glob($path.DIRECTORY_SEPARATOR.$category.DIRECTORY_SEPARATOR.'*'), 'is_file');
-
+        
+        $posts = $this->load_posts(
+            $files,
+            $this->config->get('blog.sort_key'),
+            $this->config->get('blog.file_extension')
+        );
+        
+        krsort($posts);
+        
+        return $posts;
+    }
+    
+    /**
+     * Loads a list of posts
+     * 
+     * @param array $files
+     * @param string $key
+     * @param string $ext
+     */
+    private function load_posts($files, $key = 'id', $ext = 'md')
+    {
         $posts = [];
+        
         foreach ($files AS $file)
         {
             if (pathinfo($file, PATHINFO_EXTENSION) !== $ext)
                 continue;
             
-            $post = $this->read_meta($file, file_get_contents($file));
-            $posts[$post['date']] = $post;
+            $post = $this->read_post($file);
+            $meta = $this->read_meta($file, file_get_contents($file));
+            $post = array_merge($post, $meta);
+            
+            $posts[$post[$key]] = $post;
         }
-        
-        krsort($posts);
         
         return $posts;
     }
@@ -93,18 +117,26 @@ class Posts implements IPosts
      */
     private function read_meta($file, $file_contents)
     {
-        $filename = pathinfo($file, PATHINFO_FILENAME);
-        $result = [
-            'id' => $filename,
-            'title' => $this->style($filename)
-        ];
-        
         preg_match("/<!--(.*?)-->/s", $file_contents, $matches);
         
         if (isset($matches[1]))
-            $result = array_merge($result, parse_ini_string($matches[1]));
+            return parse_ini_string($matches[1]);
         
-        return $result;
+        return [];
+    }
+    
+    /**
+     * Returns a formatted title
+     * @param string $file
+     */
+    private function read_post($file)
+    {
+        $filename = pathinfo($file, PATHINFO_FILENAME);
+        
+        return [
+            'id' => $filename,
+            'title' => $this->style($filename)
+        ];
     }
     
     /**

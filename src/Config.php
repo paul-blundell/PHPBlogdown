@@ -33,7 +33,7 @@ class Config implements IConfig
     public function get($name)
     {
         if (!isset($this->config[$name]))
-            throw new \Exception('Configuration key does not exist.');
+            return null;
         
         return $this->config[$name];    
     }

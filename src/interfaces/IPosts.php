@@ -5,7 +5,7 @@ namespace PHPBlogdown\Interfaces;
 interface IPosts
 {
     /**
-     * Get a post
+     * Get a post by ID
      * @param string $category
      * @param string $post
      * @return array
