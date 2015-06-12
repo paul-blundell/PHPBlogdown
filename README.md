@@ -63,13 +63,13 @@ You must specify a path to a config file when initialising the Blog. The config 
 
 Then create a new folder somewhere which will be where you upload your markdown files. Sub-directories of this folder will be the Blogs categories. You must have at least 1 category.
 
-## Why should I use this
+## Why should I use this?
 
-So, why should you use this? I don't know. If you think it suits your needs then go ahead and use it :)
+I don't know. If you think it suits your needs then go ahead and use it :)
 
 ## Installation
 
-Clone and run `composer install`.
+Download and run `composer install`.
 
 Alternatively, you can download a ready made website that uses PHPBlogdown [here](https://github.com/paul-blundell/phpblogdown-app), built with Slim Framework and Twig.
 
