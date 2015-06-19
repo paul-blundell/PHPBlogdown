@@ -4,30 +4,59 @@ A simple and fast blogging platform for markdown documents.
 
 ## What is this
 
-This is the core of PHPBlogdown, this is where the magic happens. You can use the core like the following:
+This is the core of PHPBlogdown, this is where the magic happens.
+
+### Getting Started
+
+You can use PHPBlogdown like the following:
 
     $blog = new PHPBlogdown\Blog('config.ini');
-    $categories = $blog->categories->get_all();
+    $categories = $blog->get_categories();
 
-And this will get a list of posts in the category:
+#### Categories
 
-    $posts = $blog->posts->get_all('category_name');
+`$categories` can now be iterated like the following, which will process all categories including sub-categories:
+
+    foreach (new RecursiveIteratorIterator($categories, RecursiveIteratorIterator::SELF_FIRST) AS $node)
+    {
+        echo $node->name;
+    }
+
+Or you can get a specific category:
+
+    $category = $categories->get('category');
+
+Or for a sub-category:
+
+    $subcategory = $categories->get('category')->children->get('sub');
+    
+#### Posts
+
+This will get a list of posts in the category:
+
+    $category = $categories->get('my-category');
+    $posts = $blog->get_posts($category);
 
 The following will get a specific post:
 
-    $blog = new PHPBlogdown\Blog('config.ini');
-    $post = $blog->posts->get('about', 'what_is_this');
+    $category = $categories->get('my-category');
+    $post = $blog->get_post($category, 'what_is_this');
+    $title = $post->title;
+    $custom = $post->my_custom_meta_parameter;
 
-which will return an array like so:
+which will return a `Post` object with the following public parameters:
     
-    [
-        'id' => 'what_is_this',
-        'title' => 'What Is This',
-        'summary' => 'PHP Blogdown is..<ommitted>',
-        'author' => 'Paul Blundell',
-        'date' => '2015-06-11 12:00',
-        'body' => '<html_output>'
-    ]
+    id = The filename of the post without the extension
+    title = The filename of the post with underscores replaced with spaces
+    path = The full path to the file
+
+You can also call any custom parameters you specified in the posts metadata, e.g. `$post->custom`.
+
+To get the HTML output:
+
+    $post->getBody();
+    
+#### Metadata    
    
 The posts metadata, summary, autor, etc. is defined at the top of the markdown document, like so:
 

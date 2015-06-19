@@ -2,9 +2,11 @@
 
 namespace PHPBlogdown;
 
-use PHPBlogdown\Interfaces\IConfig;
-
-class Config implements IConfig
+/**
+ * Class Config
+ * @package PHPBlogdown
+ */
+class Config
 {
     /**
      * @var array
@@ -14,6 +16,7 @@ class Config implements IConfig
     /**
      * Initialise the config
      * @param string $file
+     * @throws \Exception
      */
     public function __construct($file)
     {
@@ -29,6 +32,7 @@ class Config implements IConfig
     /**
      * Get a config value
      * @param string $name
+     * @return null|string
      */
     public function get($name)
     {
