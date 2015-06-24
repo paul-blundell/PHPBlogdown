@@ -1,12 +1,8 @@
 # PHPBlogdown
 
-A simple and fast blogging platform for markdown documents.
+A simple blogging engine for markdown documents, written in PHP.
 
-## What is this
-
-This is the core of PHPBlogdown, this is where the magic happens.
-
-### Getting Started
+## Getting Started
 
 You can use PHPBlogdown like the following:
 
@@ -81,10 +77,6 @@ You must specify a path to a config file when initialising the Blog. The config 
 	; The path to the Markdown files
 	;
 	blog.files_path = /the/path/to/the/posts/directory/
-	
-	; Number of posts to show per page
-	; (Coming soon)
-	blog.items_per_page = 10
 	
 	; The extension of the Markdown files
 	;
